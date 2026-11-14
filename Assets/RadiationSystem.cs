@@ -55,11 +55,11 @@ public class RadiationSystem : MonoBehaviour
         else if (isSolarStormActive)
         {
             currentHealth -= radiationDamagePerSecond * Time.deltaTime;
-            ActualizarEstadoTraje("¡PELIGRO! Radiación solar extrema en superficie", Color.red);
+            ActualizarEstadoTraje("¡PELIGRO! mucho calor del sol", Color.red);
         }
         else
         {
-            ActualizarEstadoTraje("TRAJE NOMINAL: Exploración en superficie", Color.green);
+            ActualizarEstadoTraje("TRAJE NORMAL: Exploración en superficie", Color.green);
         }
 
         if (healthBar != null)
