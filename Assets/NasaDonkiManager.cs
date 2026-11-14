@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
-
+var ciudad = "Madrid";
 public class NasaDonkiManager : MonoBehaviour
 {
     [Header("Interfaz de Usuario")]
