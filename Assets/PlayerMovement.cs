@@ -5,9 +5,11 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Configuración de Movimiento")]
     public float speed = 5.0f;
+    // Nueva variable para controlar qué tan alto salta el astronauta
+    public float jumpHeight = 1.2f; 
     
     [Header("Física Espacial")]
-    // Gravedad real de Marte: -3.72 m/s² (En la Tierra es -9.81 m/s²)
+    // Gravedad real de Marte: -3.72 m/s²
     public float gravity = -3.72f; 
 
     private CharacterController controller;
@@ -15,31 +17,34 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        // Unity busca el Character Controller automáticamente
         controller = GetComponent<CharacterController>();
     }
 
     void Update()
     {
-        // 1. Detección de suelo: Si estamos tocando el piso, detenemos la caída
+        // 1. Detección de suelo
         if (controller.isGrounded && velocity.y < 0)
         {
-            // Se usa -2f en lugar de 0 para asegurar que el motor registre el contacto continuo
             velocity.y = -2f; 
         }
 
-        // 2. Leer las teclas WASD o flechas direccionales
+        // 2. Leer teclado para caminar
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        // 3. Mover al personaje respetando hacia dónde está mirando
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        // 4. Aplicar la fuerza de gravedad marciana
+        // 3. Mecánica de Salto (¡NUEVO!)
+        // Si presionamos Espacio (Jump) y estamos tocando el suelo...
+        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        {
+            // Aplicamos la fórmula física para la velocidad de salto
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+
+        // 4. Aplicar la fuerza de gravedad y la caída
         velocity.y += gravity * Time.deltaTime;
-        
-        // El movimiento vertical (caída) se aplica por separado
         controller.Move(velocity * Time.deltaTime); 
     }
 }
