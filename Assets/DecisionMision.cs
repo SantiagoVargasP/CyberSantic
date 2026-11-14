@@ -1,12 +1,13 @@
 using UnityEngine;
-using TMPro; // Para usar textos
-using UnityEngine.UI; // Para usar botones y barras
+using TMPro;
+using UnityEngine.UI;
 
 public class DecisionMision : MonoBehaviour
 {
     [Header("Pantalla de Decisión")]
-    public GameObject panelMenu; // El cuadro con los botones
-    public TextMeshProUGUI textoAviso; // Donde diremos qué pasó al final
+    public GameObject panelMenu; // El cuadro con los botones (Mision 1)
+    public TextMeshProUGUI textoAviso; // El texto amarillo (debe estar AFUERA de Mision 1)
+    public GameObject botonContinuar; // El botón Continuar (debe estar AFUERA de Mision 1)
 
     [Header("Recursos de la Base")]
     public float energia = 100f;
@@ -18,40 +19,109 @@ public class DecisionMision : MonoBehaviour
     [Header("Misiones")]
     public DecisionMision scriptMisionTormenta;
 
-    // Esta función se activará al presionar el Botón A
+    public bool yaDecidio = false;
+
+    [Header("Barras de Recursos")]
+    public Slider sliderEnergia;
+    public Slider sliderComida;
+
+    void Start()
+    {
+        if (panelMenu != null) panelMenu.SetActive(false);
+        if (botonContinuar != null) botonContinuar.SetActive(false);
+        if (textoAviso != null) textoAviso.text = "";
+        ActualizarBarras();
+    }
+
+    public void MostrarMenuTormenta()
+    {
+        if (yaDecidio) return;
+
+        if (panelMenu != null) panelMenu.SetActive(true);
+        if (botonContinuar != null) botonContinuar.SetActive(false);
+        if (textoAviso != null) textoAviso.text = "";
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public void ElegirEscudoMaximo()
     {
-        energia -= 60f; // Gasta mucha energía
-        comida -= 20f;  // Las plantas se dañan por falta de luz
-        
-        panelMenu.SetActive(false); // Escondemos el menú
-        textoAviso.text = "Escudo al 100%. Gastaste mucha energía y las plantas no crecerán hoy.";
-        textoAviso.color = Color.yellow;
-        
-        sistemaTraje.isSafe = true; // El astronauta no recibe daño
+        yaDecidio = true; // Evita que el menú vuelva a salir al caminar por el búnker
+        energia -= 60f;
+        comida -= 20f;
+
+        energia -= 60f;
+        comida -= 20f;
+
+        ActualizarBarras();
+
+        if (panelMenu != null) panelMenu.SetActive(false);
+
+        if (textoAviso != null)
+        {
+            textoAviso.text = "Escudo al 100%. Gastaste mucha energía y las plantas no crecerán hoy.";
+            textoAviso.color = Color.yellow;
+        }
+
+        if (botonContinuar != null)
+        {
+            botonContinuar.SetActive(true);
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        if (sistemaTraje != null) sistemaTraje.isSafe = true;
     }
 
-    // Esta función se activará al presionar el Botón B
     public void ElegirEscudoMedio()
     {
-        energia -= 10f; // Ahorras energía
-        
-        panelMenu.SetActive(false);
-        textoAviso.text = "Escudo al 50%. Ahorraste energía, pero la radiación entró a la base.";
-        textoAviso.color = new Color(1f, 0.3f, 0.2f); // Naranja/Rojo
+        yaDecidio = true; // Evita que el menú vuelva a salir al caminar por el búnker
+        energia -= 10f;
+        ActualizarBarras();
 
-        sistemaTraje.isSafe = false;
-        sistemaTraje.currentHealth -= 30f; // El traje pierde vida por la radiación que logró entrar
+        if (panelMenu != null) panelMenu.SetActive(false);
+
+        if (textoAviso != null)
+        {
+            textoAviso.text = "Escudo Medio. Ahorraste energía, pero recibiste radiación.";
+            textoAviso.color = Color.yellow;
+        }
+
+        if (botonContinuar != null)
+        {
+            botonContinuar.SetActive(true);
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        if (sistemaTraje != null)
+        {
+            sistemaTraje.isSafe = false;
+            sistemaTraje.currentHealth -= 30f;
+        }
     }
-void Start()
-{
-    // Apaga el menú en el primer segundo del juego
-    if (panelMenu != null) panelMenu.SetActive(false);
-}
 
-public void MostrarMenuTormenta()
+    public void BotonContinuarAccion()
+    {
+        if (textoAviso != null) textoAviso.text = "";
+        if (botonContinuar != null) botonContinuar.SetActive(false);
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+    void ActualizarBarras()
 {
-    // DONKI llamará a esta función para encender el menú
-    if (panelMenu != null) panelMenu.SetActive(true);
+    if (sliderEnergia != null)
+        sliderEnergia.value = energia;
+
+    if (sliderComida != null)
+        sliderComida.value = comida;
 }
 }
