@@ -76,7 +76,7 @@ public class NasaDonkiManager : MonoBehaviour
                     {
                         SolarFlare latest = flareData.flares[flareData.flares.Length - 1];
                         radiationSystem.isSolarStormActive = true;
-                        ActualizarTextoNASA($"¡ALERTA NASA! Hay mucho calor del Sol. ¡Corre al búnker! (Datos reales de la nasa)", new Color(1f, 0.3f, 0.2f));
+                        ActualizarTextoNASA($"¡ALERTA NASA! Hay mucho calor del Sol. ¡Corre al búnker! (Datos reales de la nasa)", new Color(1f, 0.2f, 0.12f));
                     }
                 }
             }

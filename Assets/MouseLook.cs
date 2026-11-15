@@ -32,5 +32,12 @@ public class MouseLook : MonoBehaviour
 
         // 4. Aplicar la rotación horizontal a todo el cuerpo del jugador
         playerBody.Rotate(Vector3.up * mouseX);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+{
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+}
+
     }
 }
