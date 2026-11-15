@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
-var ciudad = "Madrid";
 public class NasaDonkiManager : MonoBehaviour
 {
     [Header("Interfaz de Usuario")]
@@ -76,7 +75,7 @@ public class NasaDonkiManager : MonoBehaviour
                     {
                         SolarFlare latest = flareData.flares[flareData.flares.Length - 1];
                         radiationSystem.isSolarStormActive = true;
-                        ActualizarTextoNASA($"¡ALERTA NASA! Hay mucho calor del Sol. ¡Corre al búnker! (Datos reales de la nasa)", new Color(1f, 0.2f, 0.12f));
+                        ActualizarTextoNASA($"¡ALERTA NASA! Hay mucho calor del Sol. ¡Corre al búnker! (Datos reales de la nasa)", new Color(1f, 1f, 1f));
                     }
                 }
             }

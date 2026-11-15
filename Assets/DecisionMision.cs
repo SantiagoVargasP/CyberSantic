@@ -116,7 +116,7 @@ public class DecisionMision : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-    void ActualizarBarras()
+     public void ActualizarBarras()
 {
     if (sliderEnergia != null)
         sliderEnergia.value = energia;
